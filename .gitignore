@@ -44,3 +44,5 @@ dist/
 .env
 
 /src/prisma/generated/prisma
+
+/scripts/system-voices

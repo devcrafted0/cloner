@@ -5,6 +5,7 @@ export default defineConfig({
   schema: "src/prisma/schema.prisma",
   migrations: {
     path: "src/prisma/migrations",
+    seed: "tsx scripts/seed-system-voices.ts",
   },
   datasource: {
     url: process.env["DATABASE_URL"],
