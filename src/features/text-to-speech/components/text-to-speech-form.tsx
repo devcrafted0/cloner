@@ -4,6 +4,10 @@ import { z } from "zod";
 import { formOptions } from "@tanstack/react-form";
 import { useAppForm } from "@/hooks/use-app-form";
 import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const ttsFormSchema = z.object({
   text: z.string().min(1, "Please enter some text"),
@@ -36,13 +40,36 @@ export const TextToSpeechForm = ({
   children: ReactNode;
   defaultValues: TTSFormValues;
 }) => {
+  const trpc = useTRPC();
+  const router = useRouter();
+  const createMutation = useMutation(
+    trpc.generations.create.mutationOptions({}),
+  );
+
   const form = useAppForm({
     ...ttsFormOptions,
     defaultValues: defaultValues ?? defaultTTSValues,
     validators: {
       onSubmit: ttsFormSchema,
     },
-    onSubmit: async () => {},
+    onSubmit: async ({ value }) => {
+      try {
+        const data = await createMutation.mutateAsync({
+          text: value.text.trim(),
+          voiceId: value.voiceId,
+          repetitionPenalty: value.repetitionPenalty,
+          temperature: value.temperature,
+          topK: value.topK,
+          topP: value.topP,
+        });
+        toast.success("Audio generated successfully");
+        router.push(`/text-to-speech/${data.id}`);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Failed to generate audio";
+        toast.error(message);
+      }
+    },
   });
 
   return <form.AppForm>{children}</form.AppForm>;
