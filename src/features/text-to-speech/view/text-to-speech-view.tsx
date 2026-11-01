@@ -31,7 +31,7 @@ const TextToSpeechView = ({
 
   const defaultValues: TTSFormValues = {
     ...defaultTTSValues,
-    ...initialValues,
+    text: initialValues?.text ?? defaultTTSValues.text,
     voiceId: resolvedVoiceId,
   };
 

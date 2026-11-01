@@ -14,7 +14,7 @@ const Page = async ({
 
   return (
     <HydrateClient>
-      <TextToSpeechView initialValues={{ text, voiceId }} />;
+      <TextToSpeechView initialValues={{ text, voiceId }} />
     </HydrateClient>
   );
 };
