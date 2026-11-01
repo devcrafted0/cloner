@@ -46,3 +46,6 @@ dist/
 /src/prisma/generated/prisma
 
 /scripts/system-voices
+
+__pycache__
+chatterbox_tts.py
