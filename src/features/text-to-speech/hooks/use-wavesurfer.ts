@@ -124,5 +124,5 @@ export function useWaveSurfer({
     togglePlayPause,
     seekForward,
     seekBackward,
-  };
+  } satisfies UseWaveSurferReturn;
 }
